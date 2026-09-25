@@ -1,4 +1,6 @@
 // BookNest's pipeline, versioned with the code (Chapter 5)
+@Library('booknest-lib@v1.1.0') _
+
 pipeline {
   agent { label 'linux' }
   options {
@@ -9,7 +11,8 @@ pipeline {
     stage('Inspect') {
       steps {
         sh 'echo "Building $BRANCH_NAME at $(git rev-parse --short HEAD)"'
-        sh 'test "$(grep -c \'"title"\' db/seed.json)" -eq 6'
+        seedCheck()
+        echo "Image tag: ${imageTag()}"
       }
     }
   }
