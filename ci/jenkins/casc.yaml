@@ -1,0 +1,49 @@
+# BookNest's Jenkins, as code. Secrets come from /run/secrets/<NAME>, never from this file.
+jenkins:
+  systemMessage: "BookNest CI, configured from ci/jenkins/casc.yaml"
+  numExecutors: 0
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+        - id: admin
+          name: BookNest Admin
+          password: "${JENKINS_ADMIN_PASSWORD}"
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
+  nodes:
+    - permanent:
+        name: agent-1
+        labelString: "linux booknest"
+        remoteFS: /home/jenkins/agent
+        numExecutors: 1
+        launcher: inbound
+credentials:
+  system:
+    domainCredentials:
+      - credentials:
+          - usernamePassword:
+              scope: GLOBAL
+              id: github-booknest
+              username: binarybehemoth
+              password: "${GITHUB_TOKEN}"
+unclassified:
+  location:
+    url: http://localhost:32081/
+    adminAddress: Jenkins <jenkins@example.com>
+  mailer:
+    smtpHost: l2-mailpit
+    smtpPort: "1025"
+  globalLibraries:
+    libraries:
+      - name: booknest-lib
+        defaultVersion: v1.2.0
+        allowVersionOverride: true
+        retriever:
+          modernSCM:
+            scm:
+              git:
+                remote: https://github.com/binarybehemoth/booknest-jenkins-lib.git
+jobs:
+  - file: /var/jenkins_conf/jobs.groovy
