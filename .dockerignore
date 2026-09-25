@@ -1,0 +1,21 @@
+# Installed inside the image by npm ci, never copied from the host
+node_modules
+npm-debug.log*
+
+# Version control and editor state
+.git
+.gitignore
+.vscode
+.idea
+*.swp
+
+# Secrets and local configuration
+.env
+*.env
+
+# Build and orchestration files, documentation
+Dockerfile
+.dockerignore
+docker-compose.yml
+compose*.yaml
+*.md

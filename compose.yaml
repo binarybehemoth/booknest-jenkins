@@ -1,0 +1,82 @@
+# BookNest: Nginx front end, Node.js API, PostgreSQL 18. Settings come from the shell or .env.
+name: booknest
+
+x-pg-env: &pg-env
+  PGHOST: db
+  PGUSER: ${POSTGRES_USER:-booknest}
+  PGPASSWORD: ${POSTGRES_PASSWORD:-booknest}
+  PGDATABASE: ${POSTGRES_DB:-booknest}
+
+x-logging: &logging
+  driver: local
+  options: { max-size: "10m", max-file: "3" }
+
+services:
+  web:
+    logging: *logging
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+    ports:
+      - "${WEB_PORT:-8080}:80"
+    depends_on:
+      api:
+        condition: service_healthy
+        restart: true
+    restart: on-failure
+    develop:
+      watch:
+        - action: sync
+          path: ./public
+          target: /usr/share/nginx/html
+
+  api:
+    logging: *logging
+    build: .
+    ports:
+      - "${API_PORT:-3000}:3000"
+    environment: *pg-env
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+    restart: on-failure
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./app.js
+          target: /app/app.js
+        - action: rebuild
+          path: package-lock.json
+
+  db:
+    logging: *logging
+    image: postgres:18
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-booknest}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-booknest}
+      POSTGRES_DB: ${POSTGRES_DB:-booknest}
+    ports:
+      - "127.0.0.1:${DB_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 30s
+      start_interval: 1s
+
+  test:
+    build:
+      context: .
+      target: test
+    profiles: [test]
+    environment: *pg-env
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:
