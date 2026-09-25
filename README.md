@@ -86,4 +86,4 @@ the 404/400 paths, and the static front end.
 ## Continuous integration
 
 Jenkins builds every branch and pull request with the `Jenkinsfile` at the root.
-Webhooks reach the development controller through a smee.io relay.
+Webhooks reach the development controller through a smee.io relay (development only).
