@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BookNest</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; color: #222; }
+  h1 { margin-bottom: 0.2rem; }
+  .sub { color: #666; margin-top: 0; }
+  table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; }
+  th, td { text-align: left; padding: 0.5rem 0.6rem; border-bottom: 1px solid #ddd; }
+  th { background: #f4f4f4; }
+  .out-of-stock { color: #a33; }
+  .price { text-align: right; }
+</style>
+</head>
+<body>
+<h1>BookNest</h1>
+<p class="sub">A small bookshop's catalog, served by its own REST API.</p>
+<table id="catalog">
+  <thead>
+    <tr><th>Title</th><th>Author</th><th>Genre</th><th class="price">Price</th><th>Rating</th><th>Stock</th></tr>
+  </thead>
+  <tbody></tbody>
+</table>
+<script>
+  fetch('/api/books')
+    .then((r) => r.json())
+    .then((books) => {
+      const tbody = document.querySelector('#catalog tbody');
+      for (const b of books) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${b.title}</td><td>${b.author}</td><td>${b.genre}</td>` +
+          `<td class="price">$${Number(b.price).toFixed(2)}</td><td>${b.rating}</td>` +
+          `<td class="${b.inStock ? '' : 'out-of-stock'}">${b.inStock ? 'In stock' : 'Out of stock'}</td>`;
+        tbody.appendChild(tr);
+      }
+    })
+    .catch((err) => {
+      document.body.insertAdjacentHTML('beforeend', `<p style="color:red">Failed to load catalog: ${err}</p>`);
+    });
+</script>
+</body>
+</html>

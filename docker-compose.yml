@@ -1,0 +1,34 @@
+# Brings up PostgreSQL only. There is deliberately no Dockerfile / API service here -
+# Chapter 4 teaches building the API's own image. Until then, run the API with plain
+# `node server.js` (or `npm start`) against this database.
+#
+#   docker compose up -d      # start PostgreSQL
+#   npm install
+#   npm start                 # API on http://localhost:3000
+#   docker compose down       # stop PostgreSQL (add -v to also drop the data volume)
+name: booknest
+
+services:
+  postgres:
+    image: postgres:18
+    container_name: booknest-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: booknest
+      POSTGRES_PASSWORD: booknest
+      POSTGRES_DB: booknest
+    ports:
+      - "5432:5432"
+    volumes:
+      # postgres:18+ moved to a pg_ctlcluster-style layout and mounting straight at
+      # .../data now makes the entrypoint refuse to start ("unused mount/volume" /
+      # major-version-specific directory names) - mount the parent directory instead.
+      - booknest-pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U booknest -d booknest"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  booknest-pgdata:

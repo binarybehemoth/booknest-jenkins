@@ -1,0 +1,24 @@
+{
+  "app": "BookNest",
+  "currency": "USD",
+  "books": [
+    {"id": 1, "title": "The Quiet Harbor", "author": "Mara Ellison", "genre": "Fiction", "price": 14.99,
+     "rating": 4.6, "pages": 312, "year": 2024, "inStock": true,
+     "summary": "A lighthouse keeper's daughter pieces together a decades-old disappearance."},
+    {"id": 2, "title": "Patterns of the Deep Web", "author": "Tomas Reyes", "genre": "Technology", "price": 39.50,
+     "rating": 4.3, "pages": 428, "year": 2025, "inStock": true,
+     "summary": "How the services behind your favorite apps really talk to each other."},
+    {"id": 3, "title": "Salt and Saffron", "author": "Priya Nair", "genre": "Cooking", "price": 24.00,
+     "rating": 4.8, "pages": 256, "year": 2023, "inStock": false,
+     "summary": "Coastal recipes from Kerala to Zanzibar, with the stories behind them."},
+    {"id": 4, "title": "Small Steps to Big Summits", "author": "Jonas Berg", "genre": "Travel", "price": 18.75,
+     "rating": 4.1, "pages": 198, "year": 2026, "inStock": true,
+     "summary": "A beginner's guide to trekking, from day hikes to the Himalaya."},
+    {"id": 5, "title": "The Clockmaker's Paradox", "author": "Elena Sokolova", "genre": "Science Fiction",
+     "price": 16.20, "rating": 4.5, "pages": 344, "year": 2025, "inStock": true,
+     "summary": "A repairman finds a watch that runs one hour ahead of the present."},
+    {"id": 6, "title": "Gardens in Glass", "author": "Aiko Tanaka", "genre": "Home and Garden", "price": 21.30,
+     "rating": 4.4, "pages": 176, "year": 2024, "inStock": true,
+     "summary": "Designing and keeping terrariums that thrive for years."}
+  ]
+}

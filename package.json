@@ -1,0 +1,19 @@
+{
+  "name": "booknest-baseline",
+  "version": "1.0.0",
+  "description": "BookNest REST API baseline service for the Web Coding Series, Volume 5 (Package Managers and DevOps). Node.js 24 + Express + PostgreSQL, with a static front end served by the API.",
+  "private": true,
+  "type": "commonjs",
+  "engines": {
+    "node": ">=24"
+  },
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "pg": "^8.16.3"
+  }
+}
