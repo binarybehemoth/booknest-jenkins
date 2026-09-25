@@ -56,8 +56,8 @@ function createApp() {
 
   app.get('/api/books/:id', async (req, res, next) => {
     const id = Number(req.params.id);
-    if (!Number.isInteger(id)) {
-      return res.status(400).json({ error: 'id must be an integer' });
+    if (!Number.isInteger(id) || id < 1 || id > 100) {
+      return res.status(400).json({ error: 'id must be an integer from 1 to 100' });
     }
     try {
       const { rows } = await db.query(
