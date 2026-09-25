@@ -87,3 +87,4 @@ the 404/400 paths, and the static front end.
 
 Jenkins builds every branch and pull request with the `Jenkinsfile` at the root.
 Webhooks reach the development controller through a smee.io relay (development only).
+Production controllers receive webhooks directly or poll.
