@@ -82,3 +82,7 @@ the 404/400 paths, and the static front end.
 - `/health` never touches the database; `/ready` always does. Keep that distinction when Chapter
   6 wires these into Kubernetes liveness/readiness probes - a slow database must fail readiness,
   not liveness, or the orchestrator restarts a perfectly healthy pod for no reason.
+
+## Continuous integration
+
+Jenkins builds every branch and pull request with the `Jenkinsfile` at the root.
