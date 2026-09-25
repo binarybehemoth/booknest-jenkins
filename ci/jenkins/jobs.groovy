@@ -1,5 +1,5 @@
 // Job DSL: one multibranch job per BookNest repository
-['booknest-jenkins'].each { repo ->
+['booknest-jenkins', 'booknest-jenkins-lib'].each { repo ->
   multibranchPipelineJob(repo) {
     displayName("BookNest (${repo})")
     branchSources {
